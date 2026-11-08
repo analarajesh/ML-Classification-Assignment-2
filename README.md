@@ -1,78 +1,97 @@
-# Machine Learning Classification Dashboard
 
-**BITS Pilani – M.Tech (Data Science & Engineering)**  
-**Machine Learning – Assignment 2**
+# Machine Learning Classification Assignment 2
+
+**BITS Pilani | M.Tech DSE | Machine Learning**
 
 ## 1. Problem Statement
 
-This project implements and compares five supervised classification algorithms on the same dataset, evaluates them using six metrics, and demonstrates their predictions in an interactive Streamlit application.
+In this assignment, I worked with a classification dataset and compared five machine learning algorithms. The main aim was to train all five models on the same data, check how well they performed on test data, and display the results through a Streamlit application.
 
-Models: Logistic Regression, Decision Tree, K-Nearest Neighbors (KNN), Gaussian Naive Bayes, and Support Vector Machine (SVM).
+The models used were Logistic Regression, Decision Tree, K-Nearest Neighbors (KNN), Gaussian Naive Bayes, and Support Vector Machine (SVM).
+
+The Streamlit app allows a user to upload the test dataset, choose a model, and see its evaluation metrics and confusion matrix.
 
 ## 2. Dataset Description
 
-**Dataset:** Wisconsin Diagnostic Breast Cancer  
-**Source:** [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic) (loaded using `sklearn.datasets.load_breast_cancer`)
+I used the **Wisconsin Diagnostic Breast Cancer** dataset, available from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic) and through scikit-learn.
 
-| Property | Value |
-|---|---|
-| Instances | 569 |
-| Numerical input features | 30 |
-| Malignant (target 0) | 212 |
-| Benign (target 1) | 357 |
-| Missing values | 0 |
-| Task | Binary classification |
+- Total samples: **569**
+- Input features: **30** numerical measurements
+- Target classes: **Malignant (0)** and **Benign (1)**
+- Malignant samples: **212**
+- Benign samples: **357**
+- Missing values: **None**
 
-An 80:20 stratified train/test split (`random_state=42`) yielded 455 training and 114 test records. Logistic Regression, KNN, and SVM use `StandardScaler` in training pipelines; Decision Tree and Gaussian Naive Bayes use the original features. All metrics were evaluated on the same held-out test set. The positive class for precision, recall, F1 and AUC is **benign (1)**.
+The features describe measurements of cell nuclei, such as radius, texture, perimeter, and area. I used an 80:20 train-test split with `random_state=42`, giving **455 training samples** and **114 test samples**. The test set was kept separate for evaluation.
 
-## 3. GitHub Repository Link
+For Logistic Regression, KNN, and SVM, I used `StandardScaler` inside a pipeline because these models can be affected by feature scales. The Decision Tree and Gaussian Naive Bayes models were trained without that scaling pipeline.
 
-**Repository:** [INSERT GITHUB REPOSITORY URL AFTER UPLOADING]
+## 3. Project Links
 
-## 4. Models and Evaluation Metrics
+**GitHub repository:** https://github.com/analarajesh/ML-Classification-Assignment-2
+
+**Live Streamlit app:** https://ml-classification-assignment-2-4osmnv7r3juxgsl4wwhdvn.streamlit.app/
+
+## 4. Models Used and Evaluation Results
+
+I evaluated all five models using Accuracy, AUC, Precision, Recall, F1 Score, and Matthews Correlation Coefficient (MCC). The metrics below are from the same test set of 114 samples. In the code, class 1 (Benign) is the positive class for Precision, Recall, F1, and AUC.
 
 | ML Model | Accuracy | AUC | Precision | Recall | F1 | MCC |
 |---|---:|---:|---:|---:|---:|---:|
 | Logistic Regression | 0.9825 | 0.9954 | 0.9861 | 0.9861 | 0.9861 | 0.9623 |
 | Decision Tree | 0.9211 | 0.9163 | 0.9565 | 0.9167 | 0.9362 | 0.8341 |
-| KNN | 0.9561 | 0.9788 | 0.9589 | 0.9722 | 0.9655 | 0.9054 |
+| K-Nearest Neighbors | 0.9561 | 0.9788 | 0.9589 | 0.9722 | 0.9655 | 0.9054 |
 | Gaussian Naive Bayes | 0.9386 | 0.9878 | 0.9452 | 0.9583 | 0.9517 | 0.8676 |
-| SVM | 0.9825 | 0.9950 | 0.9861 | 0.9861 | 0.9861 | 0.9623 |
-
-These are results observed in the assignment notebook and verified in the BITS Virtual Lab Streamlit dashboard. AUC is calculated from predicted probabilities.
+| Support Vector Machine | 0.9825 | 0.9950 | 0.9861 | 0.9861 | 0.9861 | 0.9623 |
 
 ## 5. Observations About Model Performance
 
-| ML Model | Observation |
+| Model | My observation |
 |---|---|
-| Logistic Regression | Highest AUC (0.9954), tied highest accuracy (0.9825), and 112/114 correct test predictions. |
-| Decision Tree | Lowest accuracy (0.9211) and MCC (0.8341) of the five models on this split. |
-| KNN | Accuracy 0.9561 and recall 0.9722; distance-based method benefits from scaling. |
-| Gaussian Naive Bayes | Accuracy 0.9386, but strong AUC of 0.9878 on the held-out test set. |
-| SVM | Tied Logistic Regression on accuracy, precision, recall, F1 and MCC; AUC 0.9950. |
-| Overall winner | Logistic Regression by a very small AUC margin over SVM; both tie on five other reported metrics. |
+| **Logistic Regression** | This model performed very well, with 98.25% accuracy. It made only two incorrect predictions out of 114 test samples. Its AUC was also the highest among the five models. |
+| **Decision Tree** | The Decision Tree was easy to understand as a model, but it gave the lowest accuracy (92.11%) and MCC (0.8341) in this comparison. It made more mistakes than the other models. |
+| **KNN** | KNN achieved 95.61% accuracy. It performed better than Decision Tree and Naive Bayes on accuracy, although it did not match Logistic Regression or SVM. |
+| **Gaussian Naive Bayes** | Naive Bayes gave 93.86% accuracy. Its AUC was still quite high (0.9878), even though its accuracy was lower than the top models. |
+| **SVM** | SVM matched Logistic Regression on accuracy, precision, recall, F1, and MCC. Its AUC was 0.9950, just below Logistic Regression. |
 
-**Personal reflection (add your own):** [WRITE 2–3 SENTENCES EXPLAINING WHAT YOU LEARNED AND ANY LIMITATIONS YOU NOTICED.]
+### Overall winner
 
-These results depend on the particular split and model settings; they do not establish universal superiority. Because the positive class is benign, recall here is **not** malignant-case sensitivity.
+**Logistic Regression** was my choice for the best model on this test split. Logistic Regression and SVM both reached **98.25% accuracy**, but Logistic Regression had a slightly higher AUC (**0.9954** compared with **0.9950**). Logistic Regression is also relatively straightforward to explain.
+
+These are results from one train-test split, so they do not prove that the same model will always be best on new data.
 
 ## 6. Streamlit Application
 
-The application supports CSV upload, model selection, six evaluation metrics, a confusion matrix, and prediction results. The uploaded test CSV must include all 30 input columns and a `target` column to compute evaluation metrics.
+I built the dashboard using Streamlit. It has the following features:
 
-Run from the project folder:
+- Upload the test dataset as a CSV file.
+- Select one of the five trained models from a dropdown.
+- View the uploaded data.
+- See all six evaluation metrics.
+- View the confusion matrix and prediction results.
+
+The app loads the trained models saved in the `model/` folder. The file `test_data.csv` contains the test features and their target labels so that the app can calculate evaluation metrics.
+
+### Running the app
+
+From the project folder, install the dependencies:
 
 ```bash
 pip install -r requirements.txt
-python -m streamlit run app.py
 ```
 
-Upload `test_data.csv` and select each classifier. Saved `.joblib` files should only be loaded from trusted sources and should be used with compatible scikit-learn versions.
+Then run:
 
-## 7. Repository Structure
+```bash
+streamlit run app.py
+```
+
+Open the local URL shown in the terminal, upload `test_data.csv`, and select a model to see its results.
+
+## 7. Project Files
 
 ```text
-ML-Assignment/
+ML-Classification-Assignment-2/
 ├── ML_Assignment.ipynb
 ├── app_creation.ipynb
 ├── app.py
@@ -88,14 +107,10 @@ ML-Assignment/
     └── svm.joblib
 ```
 
-## 8. Deployment
+## 8. Conclusion
 
-**Streamlit Community Cloud URL:** [INSERT LIVE APP URL AFTER DEPLOYMENT]
+This assignment helped me compare different classification algorithms using the same dataset and evaluation measures. Logistic Regression and SVM gave the best accuracy, while Decision Tree had the lowest accuracy in my experiments. I also learned how to save trained models and use them in a Streamlit dashboard instead of only displaying results in a notebook.
 
-Deploy `app.py` from the GitHub repository on Streamlit Community Cloud. Verify that the CSV upload and all five models work after deployment.
+The app was tested in the BITS Virtual Lab and deployed through Streamlit Community Cloud.
 
-## 9. Conclusion
-
-Five classification models were implemented and compared on the Wisconsin Diagnostic Breast Cancer dataset. Logistic Regression and SVM achieved the highest test accuracy (0.9825), and Logistic Regression had the highest AUC (0.9954). The Streamlit dashboard demonstrates model selection, evaluation, and prediction on held-out test data.
-
-*Educational demonstration only; not a clinical diagnostic tool.*
+*This project is for learning and demonstration purposes, not for medical diagnosis.*
